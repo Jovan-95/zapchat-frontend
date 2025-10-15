@@ -1,0 +1,21 @@
+.mt-16 {
+    margin-top: 16px;
+}
+
+input:focus {
+    outline: none;
+}
+.loading-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.d-none {
+    display: none;
+}
+
+.d-block {
+    display: block;
+}
