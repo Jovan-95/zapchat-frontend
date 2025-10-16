@@ -9,7 +9,7 @@ export const initPusher = (token: string) => {
   if (pusher) {
     pusher.disconnect(); // za svaki slučaj ako već postoji stara konekcija
   }
-  console.log("Token", token);
+  // console.log("Token", token);
   pusher = new Pusher("c62c108160e4b23c8f71", {
     cluster: "eu",
     forceTLS: true,

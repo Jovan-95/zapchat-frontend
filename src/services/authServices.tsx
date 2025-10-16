@@ -4,7 +4,7 @@ import { LoginFormUser, RegisterFormUser, ResetUserObj } from "../types/type";
 // const API_URL = "https://zap-chat-backend-production-03b2.up.railway.app/api";
 
 const API_URL = import.meta.env.VITE_API_URL;
-console.log("API_URL:", API_URL);
+// console.log("API_URL:", API_URL);
 
 // Post HTTP method
 export async function registerNewUser(user: RegisterFormUser) {
