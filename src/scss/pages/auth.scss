@@ -1,113 +1,113 @@
 .auth-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: 100vh;
-    overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  overflow: hidden;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+  .bg-img-wrapper {
+    img {
+      height: 100vh;
+      width: 100%;
+      object-fit: cover;
+      cursor: pointer;
+    }
     @media (max-width: 768px) {
-        grid-template-columns: 1fr;
+      display: none;
     }
-    .bg-img-wrapper {
-        img {
-            height: 100vh;
-            width: 100%;
-            object-fit: cover;
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            display: none;
-        }
+  }
+  .form-wrapper {
+    // text-align: center;
+    margin-block: auto;
+    margin-bottom: 300px;
+    padding: 30px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      padding: 16px;
     }
-    .form-wrapper {
-        // text-align: center;
-        margin-block: auto;
-        margin-bottom: 300px;
-        padding: 30px;
-        background-color: #ffffff;
+
+    form {
+      width: 400px;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+    .logo {
+      text-align: center;
+
+      img {
+        width: 130px;
+        height: 130px;
+        object-fit: cover;
+        cursor: pointer;
+      }
+    }
+    .form-heading {
+      color: #101828;
+      font-size: 26px;
+      line-height: 38px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .form-underheading {
+      margin-top: 8px;
+      margin-bottom: 8px;
+      font-size: 16;
+      line-height: 24px;
+      font-weight: 100;
+      color: #667085;
+      text-align: center;
+    }
+    .input-wrapper {
+      width: 100%;
+      margin-top: 7px;
+      label {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #344054;
+        display: block;
+      }
+      .icon-input-wrapper {
         display: flex;
-        justify-content: center;
         align-items: center;
-
-        @media (max-width: 768px) {
-            padding: 16px;
+        margin-top: 6px;
+        border: 1px solid #d0d5dd;
+        width: 100%;
+        border-radius: 8px;
+        padding: 10px 10px;
+        img {
+          width: 20px;
+          height: 20px;
+          margin-right: 6px;
+          object-fit: cover;
+          cursor: pointer;
         }
-
-        form {
-            width: 400px;
-            @media (max-width: 768px) {
-                width: 100%;
-            }
+        svg {
+          margin-right: 6px;
         }
-        .logo {
-            text-align: center;
-
-            img {
-                width: 150px;
-                height: 150px;
-                object-fit: cover;
-                cursor: pointer;
-            }
+        input {
+          border: none;
+          width: 100%;
         }
-        .form-heading {
-            color: #101828;
-            font-size: 30px;
-            line-height: 38px;
-            font-weight: 600;
-            text-align: center;
-        }
-        .form-underheading {
-            margin-top: 12px;
-            margin-bottom: 20px;
-            font-size: 16;
-            line-height: 24px;
-            font-weight: 100;
-            color: #667085;
-            text-align: center;
-        }
-        .input-wrapper {
-            width: 100%;
-            margin-top: 12px;
-            label {
-                font-weight: 500;
-                font-size: 14px;
-                line-height: 20px;
-                color: #344054;
-                display: block;
-            }
-            .icon-input-wrapper {
-                display: flex;
-                align-items: center;
-                margin-top: 6px;
-                border: 1px solid #d0d5dd;
-                width: 100%;
-                border-radius: 8px;
-                padding: 10px 10px;
-                img {
-                    width: 20px;
-                    height: 20px;
-                    margin-right: 6px;
-                    object-fit: cover;
-                    cursor: pointer;
-                }
-                svg {
-                    margin-right: 6px;
-                }
-                input {
-                    border: none;
-                    width: 100%;
-                }
-            }
-            .error-text {
-                color: red;
-            }
-        }
-        .form-link-text {
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 20px;
-            color: #6941c6;
-            margin-top: 14px;
-            margin-bottom: 8px;
-        }
+      }
+      .error-text {
+        color: red;
+      }
     }
+    .form-link-text {
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      color: #6941c6;
+      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+  }
 }
