@@ -1,10 +1,11 @@
+import { FetchError } from "../types/interfaces";
 import { LoginFormUser, RegisterFormUser, ResetUserObj } from "../types/type";
 
 // const API_URL = "http://127.0.0.1:8000/api";
 // const API_URL = "https://zap-chat-backend-production-03b2.up.railway.app/api";
 
 const API_URL = import.meta.env.VITE_API_URL;
-// console.log("API_URL:", API_URL);
+console.log("API_URL:", API_URL);
 
 // Post HTTP method
 export async function registerNewUser(user: RegisterFormUser) {
@@ -27,6 +28,7 @@ export async function registerNewUser(user: RegisterFormUser) {
 }
 
 // Login
+
 export async function loginUser(user: LoginFormUser) {
   try {
     const res = await fetch(`${API_URL}/api/login`, {
@@ -37,12 +39,18 @@ export async function loginUser(user: LoginFormUser) {
       },
       body: JSON.stringify(user),
     });
-    if (!res.ok) throw new Error(`${res.status}, ${res.statusText}`);
+
+    if (!res.ok) {
+      const error = new Error("Request failed") as FetchError;
+      error.status = res.status;
+      throw error; // React Query će ovo uhvatiti
+    }
+
     const data = await res.json();
-    // console.log(data);
     return data;
   } catch (err) {
-    console.log(err);
+    console.error("Login error:", err);
+    throw err; // da bi React Query mogao da ga vidi u onError
   }
 }
 

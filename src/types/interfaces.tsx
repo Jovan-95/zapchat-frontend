@@ -78,3 +78,8 @@ export interface HomeProps {
 export interface UserTypingEvent {
   fromId: number;
 }
+
+// Error login
+export interface FetchError extends Error {
+  status?: number;
+}
