@@ -106,7 +106,7 @@ function UsersList({
                 ></div>
               </div>
               <div className="text-wrapper">
-                <div className="chat-name">{user.name}</div>
+                <div className="chat-name">{user.username}</div>
 
                 <div className="chat-text">
                   {user?.last_message || "No messages yet"}
