@@ -1,10 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "../../services/chatServices";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  deleteUser,
+  editOtherUser,
+  fetchUsers,
+} from "../../services/chatServices";
 import { useState } from "react";
 import { useDebounce } from "../../hooks/useDebaunce";
 import { Helix } from "ldrs/react";
-import { User } from "../../types/type";
+import { EditUserForm, User } from "../../types/type";
 import { UsersListProps } from "../../types/interfaces";
+import { showErrorToast, showSuccessToast } from "../../components/toast";
+import { useForm } from "react-hook-form";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,6 +23,11 @@ function UsersList({
 }: UsersListProps) {
   const [users_search, setUsersSearch] = useState("");
   const debouncedSearch = useDebounce(users_search, 2000);
+
+  const queryClient = useQueryClient();
+  const [openDropdownUserId, setOpenDropdownUserId] = useState<number | null>(
+    null
+  );
 
   // Fetch users
   const {
@@ -30,6 +42,48 @@ function UsersList({
 
   // console.log("Online users in render:", onlineUsers);
   // console.log("Users", users);
+
+  // React Form Hook
+  const { register, handleSubmit } = useForm<EditUserForm>();
+
+  // Delete user mutation
+  const deleteUserMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      showSuccessToast("User deleted successfully!");
+    },
+    onError: () => {
+      showErrorToast("Failed to delete user!");
+    },
+  });
+
+  //// Patch HTTP method Edit user, not finished yet
+  const { mutate: editOtherUserMutation } = useMutation({
+    mutationFn: ({ username, userId }: { username: string; userId: number }) =>
+      editOtherUser(username, userId),
+
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      showSuccessToast("User is updated!");
+    },
+
+    onError: () => {
+      showErrorToast("Failed to update user");
+    },
+  });
+
+  // Edit other user info
+  function onSubmit(data: EditUserForm, userId: number) {
+    editOtherUserMutation({ username: data.username, userId });
+    setOpenDropdownUserId(null);
+  }
+
+  // Delete user
+  function handleDelete(userId: number) {
+    deleteUserMutation.mutate(Number(userId));
+  }
 
   // Loading / Error states
   if (isLoading)
@@ -79,7 +133,6 @@ function UsersList({
           const isOnline = onlineUsers.some(
             (u) => Number(u.id) === Number(user.id)
           );
-
           return (
             <div
               onClick={() => {
@@ -106,13 +159,63 @@ function UsersList({
                 ></div>
               </div>
               <div className="text-wrapper">
-                <div className="chat-name">{user.username}</div>
+                <div className="chat-name mb-8">{user.username}</div>
 
                 <div className="chat-text">
                   {user?.last_message || "No messages yet"}
                 </div>
               </div>
               <div className="chat-time">
+                {/* Options */}
+                {user?.is_admin === 1 ? (
+                  ""
+                ) : (
+                  <>
+                    <div className="options">
+                      <img
+                        onClick={() => handleDelete(user.id)}
+                        className="mr-8"
+                        src="/icons/delete-user.png"
+                        alt="delete icon"
+                      />
+                      <img
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenDropdownUserId((prev) =>
+                            prev === user.id ? null : user.id
+                          );
+                        }}
+                        src="/icons/chat-user-options.png"
+                        alt="icon"
+                      />
+                    </div>
+                    {/* User options dropdown */}
+                    {openDropdownUserId === user.id && (
+                      <div className="dropdown">
+                        <form
+                          onClick={(e) => e.stopPropagation()}
+                          onSubmit={handleSubmit((data) =>
+                            onSubmit(data, user.id)
+                          )}
+                        >
+                          <input
+                            type="text"
+                            placeholder="New nickname..."
+                            style={{ width: "100%", marginBottom: "5px" }}
+                            defaultValue={user?.username || ""}
+                            {...register("username", {
+                              required: "Username is required",
+                            })}
+                          />
+                          <button type="submit" className="btn">
+                            Save
+                          </button>
+                        </form>
+                      </div>
+                    )}
+                  </>
+                )}
+
                 {user
                   ? new Date(user.last_message_at).toLocaleTimeString([], {
                       hour: "2-digit",

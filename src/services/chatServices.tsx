@@ -91,3 +91,65 @@ export async function activateTyping(id: number) {
 
   return res.json();
 }
+
+// New features
+/////////////////////////////////////////////////////////////////
+// Change user info
+export async function editOtherUser(username: string, userId: number) {
+  try {
+    const storedUser = localStorage.getItem("loggedInUser");
+    const token = storedUser ? JSON.parse(storedUser).auth_token : null;
+
+    if (!token) throw new Error("No token found");
+
+    const res = await fetch(`${API_URL}/api/user/${userId}/edit`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ username }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`${res.status}, ${res.statusText}`);
+    }
+
+    const data = await res.json();
+    console.log("PATCH response EDIT user:", data);
+    return data;
+  } catch (err) {
+    console.error("PATCH error:", err);
+    throw err;
+  }
+}
+
+// Delete HTTP method
+export async function deleteUser(userId: number) {
+  try {
+    const storedUser = localStorage.getItem("loggedInUser");
+    const token = storedUser ? JSON.parse(storedUser).auth_token : null;
+    // console.log("token", token);
+    if (!token) throw new Error("No token found");
+
+    const res = await fetch(`${API_URL}/api/user/delete/${userId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status}, ${res.statusText}`);
+    }
+    if (res.status === 204) return { message: "Deleted successfully" };
+    const data = await res.json();
+    console.log(data);
+
+    return data;
+  } catch (err) {
+    throw new Error("Failed to delete user: " + err);
+  }
+}

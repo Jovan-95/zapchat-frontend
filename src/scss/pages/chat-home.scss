@@ -162,6 +162,46 @@ $border-gray: #ddd;
           font-size: 0.75rem;
           color: gray;
           margin-left: 5px;
+          position: relative;
+
+          .options {
+            margin-bottom: 8px;
+            text-align: end;
+            img {
+              cursor: pointer;
+              width: 24px;
+              height: 24px;
+              object-fit: cover;
+            }
+          }
+
+          .dropdown {
+            position: absolute;
+            top: 30px;
+            // right: 0;
+            left: -100px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+          }
+
+          .dropdown input {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+          }
+
+          .dropdown .btn {
+            background-color: #6941c6;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+          }
         }
       }
     }

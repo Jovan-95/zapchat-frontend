@@ -1,21 +1,29 @@
 .mt-16 {
-    margin-top: 16px;
+  margin-top: 16px;
 }
 
 input:focus {
-    outline: none;
+  outline: none;
 }
 .loading-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .d-none {
-    display: none;
+  display: none;
 }
 
 .d-block {
-    display: block;
+  display: block;
+}
+
+.mr-8 {
+  margin-right: 8px;
+}
+
+.mb-8 {
+  margin-bottom: 8px !important;
 }
