@@ -29,6 +29,7 @@ function Settings() {
     mutationFn: ({ editedObj }: { editedObj: EditedUser }) =>
       editUser(editedObj),
     onSuccess: (data) => {
+      console.log(data);
       // Update Redux logged user
       dispatch(updateLoggedInUser(data.data));
 
@@ -175,12 +176,12 @@ function Settings() {
               placeholder="Enter your password"
               type="password"
               {...register("password", {
-                required: "Password is required",
+                // required: "Password is required",
               })}
             />
-            {errors.password && (
+            {/* {errors.password && (
               <p className="error-text">{errors.password.message}</p>
-            )}
+            )} */}
           </div>
           <div className="form-row">
             <label>Confirm Password</label>
@@ -189,16 +190,16 @@ function Settings() {
               placeholder="Confirm your password"
               type="password"
               {...register("password_confirmation", {
-                required: "Please confirm password",
+                // required: "Please confirm password",
                 validate: (value) =>
                   value === password || "Passwords do not match",
               })}
             />
-            {errors.password_confirmation && (
+            {/* {errors.password_confirmation && (
               <p className="error-text">
                 {errors.password_confirmation.message}
               </p>
-            )}
+            )} */}
           </div>
 
           <div className="form-actions">
