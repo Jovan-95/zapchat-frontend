@@ -165,6 +165,9 @@ $border-gray: #ddd;
           position: relative;
 
           .options {
+            display: flex;
+            // justify-content: center;
+            align-items: center;
             margin-bottom: 8px;
             text-align: end;
             img {

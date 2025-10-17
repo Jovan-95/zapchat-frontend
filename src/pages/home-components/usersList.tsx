@@ -5,7 +5,7 @@ import {
   editOtherUser,
   fetchUsers,
 } from "../../services/chatServices";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "../../hooks/useDebaunce";
 import { Helix } from "ldrs/react";
 import { EditUserForm, User } from "../../types/type";
@@ -28,6 +28,24 @@ function UsersList({
   const [openDropdownUserId, setOpenDropdownUserId] = useState<number | null>(
     null
   );
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const { register, handleSubmit, reset } = useForm<EditUserForm>();
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdownUserId(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Fetch users
   const {
@@ -44,7 +62,6 @@ function UsersList({
   // console.log("Users", users);
 
   // React Form Hook
-  const { register, handleSubmit } = useForm<EditUserForm>();
 
   // Delete user mutation
   const deleteUserMutation = useMutation({
@@ -181,17 +198,21 @@ function UsersList({
                       <img
                         onClick={(e) => {
                           e.stopPropagation();
-                          setOpenDropdownUserId((prev) =>
-                            prev === user.id ? null : user.id
-                          );
+                          setOpenDropdownUserId((prev) => {
+                            const newId = prev === user.id ? null : user.id;
+                            if (newId === user.id) {
+                              reset({ username: user.username }); // resetuje formu sa trenutnim username
+                            }
+                            return newId;
+                          });
                         }}
-                        src="/icons/chat-user-options.png"
+                        src="/icons/dots-menu.png"
                         alt="icon"
                       />
                     </div>
                     {/* User options dropdown */}
                     {openDropdownUserId === user.id && (
-                      <div className="dropdown">
+                      <div className="dropdown" ref={dropdownRef}>
                         <form
                           onClick={(e) => e.stopPropagation()}
                           onSubmit={handleSubmit((data) =>
