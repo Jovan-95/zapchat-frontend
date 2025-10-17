@@ -7,12 +7,14 @@ import { editUser, uploadAvatar } from "../services/settingsServices";
 import { EditedUser } from "../types/type";
 import { updateLoggedInUser } from "../redux/slice";
 import { showErrorToast, showSuccessToast } from "../components/toast";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Settings() {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   // React Form Hook
   const {
@@ -177,11 +179,15 @@ function Settings() {
               type="password"
               {...register("password", {
                 // required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Min 8 characters",
+                },
               })}
             />
-            {/* {errors.password && (
+            {errors.password && (
               <p className="error-text">{errors.password.message}</p>
-            )} */}
+            )}
           </div>
           <div className="form-row">
             <label>Confirm Password</label>
@@ -195,18 +201,22 @@ function Settings() {
                   value === password || "Passwords do not match",
               })}
             />
-            {/* {errors.password_confirmation && (
+            {errors.password_confirmation && (
               <p className="error-text">
                 {errors.password_confirmation.message}
               </p>
-            )} */}
+            )}
           </div>
 
           <div className="form-actions">
             <button type="submit" className="btn-primary">
               <span>Save</span>
             </button>
-            <button type="button" className="btn-secondary">
+            <button
+              onClick={() => navigate("/")}
+              type="button"
+              className="btn-secondary"
+            >
               <span>Cancel</span>
             </button>
           </div>
