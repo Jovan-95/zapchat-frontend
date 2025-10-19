@@ -193,7 +193,10 @@ function UsersList({
                   <>
                     <div className="options">
                       <img
-                        onClick={() => handleDelete(user.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(user.id);
+                        }}
                         className="mr-8"
                         src="/icons/delete-user.png"
                         alt="delete icon"

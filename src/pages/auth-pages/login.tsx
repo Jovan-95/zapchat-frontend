@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useForm } from "react-hook-form";
 import { LoginFormUser } from "../../types/type";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUser } from "../../services/authServices";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [serverError, setServerError] = useState("");
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -38,6 +39,7 @@ function Login() {
         // Navigacija na home
         showSuccessToast("Login is successfull!");
         navigate("/");
+        queryClient.invalidateQueries({ queryKey: ["users"] });
       }
     },
     onError: (error: FetchError) => {
