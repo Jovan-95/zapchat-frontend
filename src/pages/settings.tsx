@@ -45,6 +45,8 @@ function Settings() {
       );
 
       queryClient.invalidateQueries({ queryKey: ["settings"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+
       showSuccessToast("User is updated!");
     },
     onError: () => {
@@ -75,6 +77,8 @@ function Settings() {
         "loggedInUser",
         JSON.stringify({ ...storedUser, image_path: newImagePath })
       );
+
+      queryClient.invalidateQueries({ queryKey: ["users"] });
 
       showSuccessToast("Avatar updated!");
     },
