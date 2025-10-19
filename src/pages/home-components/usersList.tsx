@@ -56,6 +56,7 @@ function UsersList({
     queryKey: ["users", debouncedSearch],
     queryFn: () => fetchUsers(debouncedSearch),
     staleTime: 0,
+    refetchInterval: 3000, // automatski refresh
   });
 
   // console.log("Online users in render:", onlineUsers);
