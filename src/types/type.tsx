@@ -46,6 +46,7 @@ export type LoggedUser = {
   image_path: string;
   username: string;
   id: number;
+  is_admin?: number;
 };
 
 export type ForgotPassField = {

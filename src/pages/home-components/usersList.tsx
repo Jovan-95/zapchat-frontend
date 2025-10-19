@@ -150,6 +150,8 @@ function UsersList({
           const isOnline = onlineUsers.some(
             (u) => Number(u.id) === Number(user.id)
           );
+
+          // console.log("USER", user);
           return (
             <div
               onClick={() => {
@@ -184,9 +186,10 @@ function UsersList({
               </div>
               <div className="chat-time">
                 {/* Options */}
-                {user?.is_admin === 1 ? (
-                  ""
-                ) : (
+
+                {(loggedUser?.email === "jovanvuks1995@gmail.com" ||
+                  loggedUser?.email === "bbogdanovic167@gmail.com") &&
+                user?.is_admin === 0 ? (
                   <>
                     <div className="options">
                       <img
@@ -235,6 +238,8 @@ function UsersList({
                       </div>
                     )}
                   </>
+                ) : (
+                  ""
                 )}
 
                 {user
