@@ -57,6 +57,7 @@ function UsersList({
     queryFn: () => fetchUsers(debouncedSearch),
     staleTime: 0,
     refetchInterval: 3000, // automatski refresh
+    placeholderData: (prev) => prev,
   });
 
   // console.log("Online users in render:", onlineUsers);
@@ -196,6 +197,7 @@ function UsersList({
                       <img
                         onClick={(e) => {
                           e.stopPropagation();
+                          setTargetUser(null);
                           handleDelete(user.id);
                         }}
                         className="mr-8"

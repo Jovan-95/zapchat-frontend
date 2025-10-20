@@ -190,7 +190,7 @@ function App() {
 
       setTimeout(() => {
         setTypingUsers((prev) => ({ ...prev, [fromId]: false }));
-      }, 2500);
+      }, 500);
     });
 
     return () => {
